@@ -13,5 +13,5 @@
 
   [[redirects]]
     from = "/api/*"
-    to = "https://smartpro.solutions/api"
+    to = "https://smartpro.solutions/api/:splat"
     status = 200
