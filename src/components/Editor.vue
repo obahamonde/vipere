@@ -49,13 +49,14 @@ const postLambda = async () => {
 const fetchZip = async () => {
   building.value = true;
   const { data } = await useFetch(
-    `/api/download/zip/${state.user.sub}`
+    `/api/download/${state.user.sub}`
   ).blob();
+  building.value = false;
   dispatch({
     zip: unref(data as any),
     zip_url: URL.createObjectURL(unref(data as any)),
   });
-  building.value = false;
+  
 };
 
 const deployLambda = async () => {

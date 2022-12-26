@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" dark:invert br fixed  sh p-4 rounded m-4 mr-96>
+  <div v-if="show" dark:invert br fixed  sh p-4 rounded m-4 mr-24   >
     <p>{{ user.name }}</p>
     <p>{{ user.email }}</p>
     <button
@@ -9,7 +9,7 @@
       v-if="isAuthenticated"
       text="red"
       hover:text-red-700
-    >
+x     >
       <v-icon>mdi-logout</v-icon>Logout
     </button>
   </div>
@@ -24,7 +24,7 @@
   >
     <v-icon>mdi-account</v-icon>
   </v-btn>
-  <div @click="show = !show" cp m-4 mr-72 fixed br z-50>
+  <div @click="show = !show" cp m-4 fixed br z-50>
     <img :src="user.picture" :alt="user.name" v-if="isAuthenticated" rf sh x4 />
   </div>
 </template>

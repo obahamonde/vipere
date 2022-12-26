@@ -14,64 +14,39 @@
         <div v-if="item.name.includes('.py')" cp scale row center>
           <Icon icon="logos:python" m-1 @click="getCode(item.url)" />
           <v-title text-xs @click="getCode(item.url)">{{ item.name }}</v-title>
-          <Icon
-            icon="mdi-delete"
-            @click="deleteFile(item.url)"
-            text-red
-            hover:text-red-700
-          />
+          <Icon icon="mdi-delete" @click="deleteFile(item.key)" text-red hover:text-red-700 />
         </div>
         <div v-else-if="item.name.includes('.html')" cp scale row center>
           <Icon icon="logos:html-5" m-1 @click="getCode(item.url)" />
-          <v-title text-xs
-            ><a :href="item.url" decoration-none>{{ item.name }}</a></v-title
-          >
-          <Icon
-            icon="mdi-delete"
-            @click="deleteFile(item.url)"
-            text-red
-            hover:text-red-700
-          />
+          <v-title text-xs><a :href="item.url" decoration-none>{{ item.name }}</a></v-title>
+          <Icon icon="mdi-delete" @click="deleteFile(item.key)" text-red hover:text-red-700 />
         </div>
-        <div
-          v-else-if="item.name.includes('requirements.txt')"
-          cp
-          scale
-          row
-          center
-        >
+        <div v-else-if="item.name.includes('requirements.txt')" cp scale row center>
           <Icon icon="mdi-cog" @click="getCode(item.url)" />
           <v-title text-xs @click="getCode(item.url)">{{ item.name }}</v-title>
-          <Icon
-            icon="mdi-delete"
-            @click="deleteFile(item.url)"
-            text-red
-            hover:text-red-700
-          />
+          <Icon icon="mdi-delete" @click="deleteFile(item.key)" text-red hover:text-red-700 />
         </div>
-        <div v-else-if="item.type === 'directory'" cp scale row>
-          <Icon icon="mdi-folder" @click="fetchFolder(item.url, item.name)" />
-          <v-title @click="fetchFolder(item.url, item.name)">{{
-            item.name
-          }}</v-title>
-          <Icon
-            icon="mdi-delete"
-            @click="deleteFile(item.url)"
-            text-red
-            hover:text-red-700
-          />
+        <div v-else-if="item.name.includes('.json')" cp scale row center>
+          <Icon icon="logos:json" @click="getCode(item.url)" />
+          <v-title text-xs @click="getCode(item.url)">{{ item.name }}</v-title>
+          <Icon icon="mdi-delete" @click="deleteFile(item.key)" text-red hover:text-red-700 />
         </div>
-        <div v-else cp scale row>
+        <div v-else-if="item.name.includes('.js')" cp scale row center>
+          <Icon icon="logos:javascript" @click="getCode(item.url)" />
+          <v-title text-xs @click="getCode(item.url)">{{ item.name }}</v-title>
+          <Icon icon="mdi-delete" @click="deleteFile(item.key)" text-red hover:text-red-700 />
+        </div>
+        <div v-else-if="item.name.includes('.css')" cp scale row center>
+          <Icon icon="logos:css-3" @click="getCode(item.url)" />
+          <v-title text-xs @click="getCode(item.url)">{{ item.name }}</v-title>
+          <Icon icon="mdi-delete" @click="deleteFile(item.key)" text-red hover:text-red-700 />
+        </div>
+      <div v-else cp scale row>
           <Icon icon="mdi-file" @click="fetchFolder(item.url, item.name)" />
           <v-title @click="fetchFolder(item.url, item.name)">{{
-            item.name
-          }}</v-title>
-          <Icon
-            icon="mdi-delete"
-            @click="deleteFile(item.url)"
-            text-red
-            hover:text-red-700
-          />
+    item.name
+}}</v-title>
+          <Icon icon="mdi-delete" @click="deleteFile(item.key)" text-red hover:text-red-700 />
         </div>
       </v-list-item>
     </v-list>
@@ -127,13 +102,13 @@ const getCode = async (url: string) => {
 
 const downloadCode = async () => {
   const { data } = await useFetch(
-    "/api/download/?key=" + state.codeUrl.split("cdn.hatarini.com/")[1]
+    "/api/download/?key=" + state.user.sub + "/lambda/" + state.currentname
   ).json();
   state.code = unref(data);
 };
 
-const deleteFile = async (url: string) => {
-  await useFetch("/api/upload/?key=" + url.split("cdn.hatarini.com/")[1], {
+const deleteFile = async (key: string) => {
+  await useFetch("/api/upload/?key=" + key, {
     method: "DELETE",
   });
   await fetchWorkspace();
